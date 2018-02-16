@@ -38,6 +38,10 @@
     <xsl:attribute name="FILEID" select="fun:normalize-fileId(key('files', .))"/>
   </xsl:template>
 
+  <xsl:template match="@xlink:href[ancestor::file/@MIMETYPE = 'image/jpeg']">
+    <xsl:attribute name="xlink:href" select="concat('../', tokenize(., '/')[last()])"/>
+  </xsl:template>
+
   <xsl:function name="fun:normalize-fileId" as="xs:string">
     <xsl:param name="file" as="element(file)"/>
     <xsl:value-of select="string-join( ('image', if ($file/../@USE) then lower-case($file/../@USE) else (), tokenize($file/FLocat/@xlink:href, '/')[last()]), '.')"/>
