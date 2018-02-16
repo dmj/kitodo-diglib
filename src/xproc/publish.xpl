@@ -4,15 +4,17 @@
   <p:input  port="source" primary="true" sequence="false"/>
   <p:output port="result" primary="true" sequence="false"/>
 
+  <p:option name="objectId" required="true"/>
+
+  <p:serialization port="result" indent="true"/>
+
   <p:xslt name="normalize">
+    <p:with-param name="objectId" select="$objectId"/>
     <p:input port="source">
       <p:pipe step="main" port="source"/>
     </p:input>
     <p:input port="stylesheet">
       <p:document href="../xslt/mets.xsl"/>
-    </p:input>
-    <p:input port="parameters">
-      <p:empty/>
     </p:input>
   </p:xslt>
 
