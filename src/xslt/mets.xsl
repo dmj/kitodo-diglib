@@ -22,6 +22,10 @@
     </mets>
   </xsl:template>
 
+  <xsl:template match="amdSec"/>
+
+  <xsl:template match="@ADMID"/>
+
   <xsl:template match="metsHdr">
     <metsHdr CREATEDATE="{@CREATEDATE}" LASTMODDATE="{current-dateTime()}">
       <agent ROLE="CUSTODIAN" TYPE="ORGANIZATION">
