@@ -8,10 +8,22 @@
 
   <p:serialization port="result" indent="true"/>
 
+  <p:validate-with-schematron name="validate-kitodo">
+    <p:input port="source">
+      <p:pipe step="main" port="source"/>
+    </p:input>
+    <p:input port="schema">
+      <p:document href="../schema/kitodo.sch"/>
+    </p:input>
+    <p:input port="parameters">
+      <p:empty/>
+    </p:input>
+  </p:validate-with-schematron>
+
   <p:xslt name="normalize">
     <p:with-param name="objectId" select="$objectId"/>
     <p:input port="source">
-      <p:pipe step="main" port="source"/>
+      <p:pipe step="validate-kitodo" port="result"/>
     </p:input>
     <p:input port="stylesheet">
       <p:document href="../xslt/mets.xsl"/>
