@@ -3,6 +3,8 @@
                xpath-default-namespace="http://www.loc.gov/METS/"
                xmlns="http://www.loc.gov/METS/"
                xmlns:fun="tag:maus@hab.de,2018-02:XSLT"
+               xmlns:mods="http://www.loc.gov/mods/v3"
+               xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                xmlns:xlink="http://www.w3.org/1999/xlink"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -25,6 +27,12 @@
   <xsl:template match="amdSec"/>
 
   <xsl:template match="@ADMID"/>
+
+  <xsl:template match="dmdSec/mdWrap[@MDTYPE = 'MODS']/xmlData/mods:mods">
+    <rdf:Description>
+      <xsl:apply-templates/>
+    </rdf:Description>
+  </xsl:template>
 
   <xsl:template match="metsHdr">
     <metsHdr CREATEDATE="{@CREATEDATE}" LASTMODDATE="{current-dateTime()}">
