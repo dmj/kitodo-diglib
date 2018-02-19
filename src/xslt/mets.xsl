@@ -13,6 +13,7 @@
   <xsl:param name="objectId" as="xs:string" required="yes"/>
   <xsl:param name="eventCreateUUID" as="xs:string" required="yes"/>
   <xsl:param name="eventNormalizeUUID" as="xs:string" required="yes"/>
+  <xsl:param name="eventNormalizeAgent" as="xs:string" required="yes"/>
 
   <xsl:key name="files" match="file" use="@ID"/>
 
@@ -57,6 +58,12 @@
               </premis:eventIdentifier>
               <premis:eventType valueURI="http://id.loc.gov/vocabulary/preservation/eventType/normalization">normalization</premis:eventType>
               <premis:eventDataTime><xsl:value-of select="current-dateTime()"/></premis:eventDataTime>
+              <premis:linkingAgentIdentifier>
+                <premis:linkingAgentIdentifierType>Name</premis:linkingAgentIdentifierType>
+                <premis:linkingAgentIdentifierValue><xsl:value-of select="$eventNormalizeAgent"/></premis:linkingAgentIdentifierValue>
+                <premis:linkingAgentRole valueURI="http://id.loc.gov/vocabulary/preservation/eventRelatedAgentRole/exe">executing program</premis:linkingAgentRole>
+              </premis:linkingAgentIdentifier>
+
             </premis:event>
           </xmlData>
         </mdWrap>

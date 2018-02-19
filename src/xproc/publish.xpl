@@ -1,4 +1,5 @@
 <p:declare-step version="1.0" name="main"
+                xmlns:d="http://dmaus.name/ns/xproc"
                 xmlns:p="http://www.w3.org/ns/xproc">
 
   <p:input  port="source" primary="true" sequence="false"/>
@@ -6,7 +7,20 @@
   <p:option name="objectId"  required="true"/>
   <p:option name="targetUri" required="true"/>
 
-  <p:group name="uuid-source">
+  <p:declare-step type="d:uuid-event">
+    <p:input  port="source"/>
+    <p:output port="result"/>
+    <p:option name="event" required="true"/>
+
+    <p:add-attribute attribute-value="" match="uuid">
+      <p:with-option name="attribute-name" select="$event"/>
+    </p:add-attribute>
+    <p:uuid version="4">
+      <p:with-option name="match" select="concat('@', $event)"/>
+    </p:uuid>
+  </p:declare-step>
+
+  <p:declare-step type="d:uuid-source">
     <p:output port="result"/>
     <p:identity>
       <p:input port="source">
@@ -15,11 +29,11 @@
         </p:inline>
       </p:input>
     </p:identity>
-    <p:add-attribute match="uuid" attribute-name="create" attribute-value=""/>
-    <p:uuid version="4" match="@create"/>
-    <p:add-attribute match="uuid" attribute-name="normalize" attribute-value=""/>
-    <p:uuid version="4" match="@normalize"/>
-  </p:group>
+    <d:uuid-event event="create"/>
+    <d:uuid-event event="normalize"/>
+  </p:declare-step>
+
+  <d:uuid-source name="uuid-source"/>
 
   <p:choose>
     <p:when test="doc-available(resolve-uri($targetUri))">
@@ -52,6 +66,7 @@
         <p:with-param name="eventNormalizeUUID" select="/uuid/@normalize">
           <p:pipe step="uuid-source" port="result"/>
         </p:with-param>
+        <p:with-param name="eventNormalizeAgent" select="concat(p:system-property('p:product-name'), ' ', p:system-property('p:product-version'))"/>
         <p:input port="source">
           <p:pipe step="validate-kitodo" port="result"/>
         </p:input>
