@@ -12,6 +12,7 @@
   <!-- Normalisiert die von Kitodo.Production erzeugte METS-Datei -->
   <xsl:param name="objectId" as="xs:string" required="yes"/>
   <xsl:param name="eventCreateUUID" as="xs:string" required="yes"/>
+  <xsl:param name="eventNormalizeUUID" as="xs:string" required="yes"/>
 
   <xsl:key name="files" match="file" use="@ID"/>
 
@@ -46,6 +47,20 @@
           </xmlData>
         </mdWrap>
       </digiprovMD>
+      <digiprovMD ID="id.{$eventNormalizeUUID}" CREATED="{current-dateTime()}">
+        <mdWrap MDTYPE="PREMIS:EVENT">
+          <xmlData>
+            <premis:event xmlns:premis="http://www.loc.gov/premis/v3">
+              <premis:eventIdentifier>
+                <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+                <premis:eventIdentifierValue><xsl:value-of select="$eventNormalizeUUID"/></premis:eventIdentifierValue>
+              </premis:eventIdentifier>
+              <premis:eventType valueURI="http://id.loc.gov/vocabulary/preservation/eventType/normalization">normalization</premis:eventType>
+              <premis:eventDataTime><xsl:value-of select="current-dateTime()"/></premis:eventDataTime>
+            </premis:event>
+          </xmlData>
+        </mdWrap>
+      </digiprovMD>
     </amdSec>
   </xsl:template>
 
@@ -58,7 +73,7 @@
   </xsl:template>
 
   <xsl:template match="metsHdr">
-    <metsHdr CREATEDATE="{@CREATEDATE}" LASTMODDATE="{current-dateTime()}" ADMID="id.{$eventCreateUUID}">
+    <metsHdr CREATEDATE="{@CREATEDATE}" LASTMODDATE="{current-dateTime()}" ADMID="id.{$eventCreateUUID} id.{$eventNormalizeUUID}">
       <agent ROLE="CUSTODIAN" TYPE="ORGANIZATION">
         <name>Herzog August Bibliothek Wolfenbüttel</name>
       </agent>

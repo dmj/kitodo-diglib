@@ -6,13 +6,20 @@
   <p:option name="objectId"  required="true"/>
   <p:option name="targetUri" required="true"/>
 
-  <p:uuid name="uuid-source" version="4" match="@create">
-    <p:input port="source">
-      <p:inline>
-        <uuid create=""/>
-      </p:inline>
-    </p:input>
-  </p:uuid>
+  <p:group name="uuid-source">
+    <p:output port="result"/>
+    <p:identity>
+      <p:input port="source">
+        <p:inline>
+          <uuid/>
+        </p:inline>
+      </p:input>
+    </p:identity>
+    <p:add-attribute match="uuid" attribute-name="create" attribute-value=""/>
+    <p:uuid version="4" match="@create"/>
+    <p:add-attribute match="uuid" attribute-name="normalize" attribute-value=""/>
+    <p:uuid version="4" match="@normalize"/>
+  </p:group>
 
   <p:choose>
     <p:when test="doc-available(resolve-uri($targetUri))">
@@ -40,6 +47,9 @@
       <p:xslt name="normalize">
         <p:with-param name="objectId" select="$objectId"/>
         <p:with-param name="eventCreateUUID" select="/uuid/@create">
+          <p:pipe step="uuid-source" port="result"/>
+        </p:with-param>
+        <p:with-param name="eventNormalizeUUID" select="/uuid/@normalize">
           <p:pipe step="uuid-source" port="result"/>
         </p:with-param>
         <p:input port="source">
