@@ -11,6 +11,7 @@
 
   <!-- Normalisiert die von Kitodo.Production erzeugte METS-Datei -->
   <xsl:param name="objectId" as="xs:string" required="yes"/>
+  <xsl:param name="eventCreateUUID" as="xs:string" required="yes"/>
 
   <xsl:key name="files" match="file" use="@ID"/>
 
@@ -24,7 +25,29 @@
     </mets>
   </xsl:template>
 
-  <xsl:template match="amdSec"/>
+  <xsl:template match="amdSec">
+    <amdSec>
+      <digiprovMD ID="id.{$eventCreateUUID}" CREATED="{current-dateTime()}">
+        <mdWrap MDTYPE="PREMIS:EVENT">
+          <xmlData>
+            <premis:event xmlns:premis="http://www.loc.gov/premis/v3">
+              <premis:eventIdentifier>
+                <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+                <premis:eventIdentifierValue><xsl:value-of select="$eventCreateUUID"/></premis:eventIdentifierValue>
+              </premis:eventIdentifier>
+              <premis:eventType valueURI="http://id.loc.gov/vocabulary/preservation/eventType/creation">creation</premis:eventType>
+              <premis:eventDataTime><xsl:value-of select="/mets/metsHdr/@CREATEDATE"/></premis:eventDataTime>
+              <premis:linkingAgentIdentifier>
+                <premis:linkingAgentIdentifierType>Name</premis:linkingAgentIdentifierType>
+                <premis:linkingAgentIdentifierValue><xsl:value-of select="/mets/metsHdr/agent/name"/></premis:linkingAgentIdentifierValue>
+                <premis:linkingAgentRole valueURI="http://id.loc.gov/vocabulary/preservation/eventRelatedAgentRole/exe">executing program</premis:linkingAgentRole>
+              </premis:linkingAgentIdentifier>
+            </premis:event>
+          </xmlData>
+        </mdWrap>
+      </digiprovMD>
+    </amdSec>
+  </xsl:template>
 
   <xsl:template match="@ADMID"/>
 
@@ -35,7 +58,7 @@
   </xsl:template>
 
   <xsl:template match="metsHdr">
-    <metsHdr CREATEDATE="{@CREATEDATE}" LASTMODDATE="{current-dateTime()}">
+    <metsHdr CREATEDATE="{@CREATEDATE}" LASTMODDATE="{current-dateTime()}" ADMID="id.{$eventCreateUUID}">
       <agent ROLE="CUSTODIAN" TYPE="ORGANIZATION">
         <name>Herzog August Bibliothek Wolfenbüttel</name>
       </agent>

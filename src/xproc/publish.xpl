@@ -6,6 +6,14 @@
   <p:option name="objectId"  required="true"/>
   <p:option name="targetUri" required="true"/>
 
+  <p:uuid name="uuid-source" version="4" match="@create">
+    <p:input port="source">
+      <p:inline>
+        <uuid create=""/>
+      </p:inline>
+    </p:input>
+  </p:uuid>
+
   <p:choose>
     <p:when test="doc-available(resolve-uri($targetUri))">
       <p:error code="TargetFileExists">
@@ -31,6 +39,9 @@
 
       <p:xslt name="normalize">
         <p:with-param name="objectId" select="$objectId"/>
+        <p:with-param name="eventCreateUUID" select="/uuid/@create">
+          <p:pipe step="uuid-source" port="result"/>
+        </p:with-param>
         <p:input port="source">
           <p:pipe step="validate-kitodo" port="result"/>
         </p:input>
