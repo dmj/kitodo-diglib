@@ -73,6 +73,12 @@
 
   <xsl:template match="@ADMID"/>
 
+  <xsl:template match="dmdSec/mdWrap[@MDTYPE = 'MODS']">
+    <mdWrap MDTYPE="OTHER" OTHERMDTYPE="RDF" MIMETYPE="application/rdf+xml">
+      <xsl:apply-templates/>
+    </mdWrap>
+  </xsl:template>
+
   <xsl:template match="dmdSec/mdWrap[@MDTYPE = 'MODS']/xmlData/mods:mods">
     <rdf:Description>
       <xsl:apply-templates/>

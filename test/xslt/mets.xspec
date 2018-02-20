@@ -1,0 +1,30 @@
+<xspec:description stylesheet="../../src/xslt/mets.xsl"
+                   xmlns:struct="http://uri.hab.de/ontology/diglib-struct#"
+                   xmlns:mets="http://www.loc.gov/METS/"
+                   xmlns:mods="http://www.loc.gov/mods/v3"
+                   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                   xmlns:xspec="http://www.jenitennison.com/xslt/xspec">
+
+  <xspec:param name="eventCreateUUID">82ef66c7-8dca-4f57-b9d9-5b6dddbef080</xspec:param>
+  <xspec:param name="eventNormalizeUUID">49130b15-d982-4d8f-bc45-c4c5c290c8d9</xspec:param>
+  <xspec:param name="eventNormalizeAgent">Foobar</xspec:param>
+  <xspec:param name="objectId">example/example</xspec:param>
+
+  <xspec:scenario label="When transforming descriptive metadata">
+    <xspec:context>
+      <mets:mets>
+        <mets:dmdSec>
+          <mets:mdWrap MDTYPE="MODS">
+            <mets:xmlData>
+              <mods:mods>
+                <struct:P0011>Lorem ipsum dolor sit amet, consectetur adipisici elit</struct:P0011>
+              </mods:mods>
+            </mets:xmlData>
+          </mets:mdWrap>
+        </mets:dmdSec>
+      </mets:mets>
+    </xspec:context>
+    <xspec:expect test="exists(//struct:P0011/parent::rdf:Description)" label="replace mods:mods with rdf:Description"/>
+  </xspec:scenario>
+
+</xspec:description>
