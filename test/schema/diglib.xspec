@@ -1,0 +1,27 @@
+<xspec:description schematron="../../src/schema/diglib.sch"
+                   xmlns:mets="http://www.loc.gov/METS/"
+                   xmlns:xspec="http://www.jenitennison.com/xslt/xspec">
+
+  <xspec:scenario label="Validating a structure with an unknown @TYPE">
+    <xspec:context>
+      <mets:mets>
+        <mets:structMap>
+          <mets:div TYPE="unkown"/>
+        </mets:structMap>
+      </mets:mets>
+    </xspec:context>
+    <xspec:expect-assert id="structmap.unknown-type"/>
+  </xspec:scenario>
+
+  <xspec:scenario label="Validating a structure with an known @TYPE">
+    <xspec:context>
+      <mets:mets>
+        <mets:structMap>
+          <mets:div TYPE="C0005"/>
+        </mets:structMap>
+      </mets:mets>
+    </xspec:context>
+    <xspec:expect-not-assert id="structmap.unknown-type"/>
+  </xspec:scenario>
+
+</xspec:description>

@@ -75,7 +75,7 @@
         </p:input>
       </p:xslt>
 
-      <p:validate-with-xml-schema assert-valid="true">
+      <p:validate-with-xml-schema assert-valid="true" name="validate-mets">
         <p:input port="source">
           <p:pipe step="normalize" port="result"/>
         </p:input>
@@ -83,6 +83,18 @@
           <p:document href="../schema/mets.xsd"/>
         </p:input>
       </p:validate-with-xml-schema>
+
+      <p:validate-with-schematron assert-valid="true">
+        <p:input port="source">
+          <p:pipe step="validate-mets" port="result"/>
+        </p:input>
+        <p:input port="schema">
+          <p:document href="../schema/diglib.sch"/>
+        </p:input>
+        <p:input port="parameters">
+          <p:empty/>
+        </p:input>
+      </p:validate-with-schematron>
 
       <p:store>
         <p:with-option name="href" select="$targetUri"/>
