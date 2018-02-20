@@ -56,7 +56,7 @@
                 <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
                 <premis:eventIdentifierValue><xsl:value-of select="$eventNormalizeUUID"/></premis:eventIdentifierValue>
               </premis:eventIdentifier>
-              <premis:eventType valueURI="http://id.loc.gov/vocabulary/preservation/eventType/normalization">normalization</premis:eventType>
+              <premis:eventType valueURI="http://id.loc.gov/vocabulary/preservation/eventType/nor">normalization</premis:eventType>
               <premis:eventDataTime><xsl:value-of select="current-dateTime()"/></premis:eventDataTime>
               <premis:linkingAgentIdentifier>
                 <premis:linkingAgentIdentifierType>Name</premis:linkingAgentIdentifierType>
