@@ -2,6 +2,7 @@
                exclude-result-prefixes="#all"
                xpath-default-namespace="http://www.loc.gov/METS/"
                xmlns="http://www.loc.gov/METS/"
+               xmlns:dct="http://purl.org/dc/terms/"
                xmlns:fun="tag:maus@hab.de,2018-02:XSLT"
                xmlns:mods="http://www.loc.gov/mods/v3"
                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -28,6 +29,20 @@
   </xsl:template>
 
   <xsl:template match="amdSec">
+    <dmdSec ID="primary">
+      <mdWrap MDTYPE="OTHER" OTHERMDTYPE="RDF" MIMETYPE="application/rdf+xml">
+        <xmlData>
+          <xsl:element name="include" namespace="http://www.w3.org/2001/XInclude">
+            <xsl:attribute name="href">about.rdf</xsl:attribute>
+            <xsl:element name="fallback" namespace="http://www.w3.org/2001/XInclude">
+              <rdf:Description>
+                <dct:bibliographicCitation>Unbekanntes Objekt / Unknown object</dct:bibliographicCitation>
+              </rdf:Description>
+            </xsl:element>
+          </xsl:element>
+        </xmlData>
+      </mdWrap>
+    </dmdSec>
     <amdSec>
       <digiprovMD ID="id.{$eventCreateUUID}" CREATED="{current-dateTime()}">
         <mdWrap MDTYPE="PREMIS:EVENT">
@@ -63,7 +78,6 @@
                 <premis:linkingAgentIdentifierValue><xsl:value-of select="$eventNormalizeAgent"/></premis:linkingAgentIdentifierValue>
                 <premis:linkingAgentRole valueURI="http://id.loc.gov/vocabulary/preservation/eventRelatedAgentRole/exe">executing program</premis:linkingAgentRole>
               </premis:linkingAgentIdentifier>
-
             </premis:event>
           </xmlData>
         </mdWrap>
