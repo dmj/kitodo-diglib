@@ -2,7 +2,7 @@
 
 REM Veröffentlicht die als Parameter übergebene METS-Datei
 REM
-REM Timestamp: <2018-03-13 11:32:46 maus>
+REM Timestamp: <2018-03-20 14:07:23 maus>
 REM Autor: David Maus <maus@hab.de>
 REM
 
@@ -31,7 +31,7 @@ if exist %TARGET% (
 %CALABASH% -i file:/%input:\=/% src/xproc/publish.xpl objectId=%signatur% targetUri=file:/%TARGET:\=/%
 
 if not errorlevel (
-  echo Okay!
+  echo Okay
 )
 
 pause
