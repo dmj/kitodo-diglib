@@ -29,7 +29,7 @@
   </xsl:template>
 
   <xsl:template match="amdSec">
-    <dmdSec ID="id.6838b7f8-f58e-4239-8322-ce4e5591f51c">
+    <dmdSec ID="de.hab.diglib-mets-dmd-primary">
       <mdWrap MDTYPE="OTHER" OTHERMDTYPE="RDF" MIMETYPE="application/rdf+xml">
         <xmlData>
           <xsl:element name="include" namespace="http://www.w3.org/2001/XInclude">
