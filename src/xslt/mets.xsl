@@ -107,6 +107,16 @@
     </metsHdr>
   </xsl:template>
 
+  <xsl:template match="@ID[parent::div/fptr][ancestor::structMap/@TYPE = 'PHYSICAL']">
+    <xsl:variable name="fileId" select="fun:normalize-fileId(key('files', ../fptr/@FILEID))"/>
+    <xsl:attribute name="ID" select="fun:normalize-physId($fileId)"/>
+  </xsl:template>
+
+  <xsl:template match="@xlink:to[parent::smLink]">
+    <xsl:variable name="fileId" select="fun:normalize-fileId(key('files', /mets/structMap/div/div[@ID = current()]/fptr/@FILEID))"/>
+    <xsl:attribute name="xlink:to" select="fun:normalize-physId($fileId)"/>
+  </xsl:template>
+
   <xsl:template match="@ID[parent::file]">
     <xsl:attribute name="ID" select="fun:normalize-fileId(..)"/>
   </xsl:template>
