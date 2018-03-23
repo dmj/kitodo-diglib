@@ -1,7 +1,7 @@
 # RelaxNG einer METS-Datei aus Kitodo.Production
 #
 # Autor: David Maus <maus@hab.de>
-# Timestamp: <2018-03-23 13:35:44 maus>
+# Timestamp: <2018-03-23 13:45:45 maus>
 #
 
 default namespace = "http://www.loc.gov/METS/"
@@ -99,6 +99,7 @@ structMapLogical = element structMap {
 structDivLogicalTop = element div {
    attribute ID { xsd:ID },
    attribute ADMID { "AMD" },
+   attribute DMDID { xsd:IDREF }?,
    attribute TYPE { xsd:token },
    structDivLogical*
 }
