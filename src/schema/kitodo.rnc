@@ -1,0 +1,141 @@
+# RelaxNG einer METS-Datei aus Kitodo.Production
+#
+# Autor: David Maus <maus@hab.de>
+# Timestamp: <2018-03-23 13:35:44 maus>
+#
+
+default namespace = "http://www.loc.gov/METS/"
+namespace diglib  = "http://uri.hab.de/ontology/diglib-struct#"
+namespace xlink   = "http://www.w3.org/1999/xlink"
+namespace mods    = "http://www.loc.gov/mods/v3"
+namespace xsi     = "http://www.w3.org/2001/XMLSchema-instance"
+namespace dv      = "http://dfg-viewer.de/"
+
+start = mets
+
+mets = element mets {
+   attribute xsi:schemaLocation { text },
+   metsHdr,
+   dmdSec*,
+   amdSec,
+   fileSec,
+   structMapLogical,
+   structMapPhysical,
+   structLink
+}
+
+metsHdr = element metsHdr {
+   attribute CREATEDATE { xsd:dateTime },
+   element agent {
+      attribute OTHERTYPE { "SOFTWARE" },
+      attribute ROLE { "CREATOR" },
+      attribute TYPE { "OTHER" },
+      element name { text },
+      element note { text }
+   }
+}
+
+dmdSec = element dmdSec {
+   attribute ID { xsd:ID },
+   element mdWrap {
+      attribute MDTYPE { "MODS" },
+      element xmlData {
+         element mods:mods {
+            element diglib:* { text }*
+         }
+      }
+   }
+}
+
+amdSec = element amdSec {
+   attribute ID { "AMD" },
+   element rightsMD {
+      attribute ID { "RIGHTS" },
+      element mdWrap {
+         attribute MDTYPE { "OTHER" },
+         attribute MIMETYPE { "text/xml" },
+         attribute OTHERMDTYPE { "DVRIGHTS" },
+          element xmlData {
+            element dv:rights {
+               element dv:* { text }+
+            }
+         }
+      }
+   },
+   element digiprovMD {
+      attribute ID { "DIGIPROV" },
+      element mdWrap {
+         attribute MDTYPE { "OTHER" },
+         attribute MIMETYPE { "text/xml" },
+         attribute OTHERMDTYPE { "DVLINKS" },
+         element xmlData {
+            element dv:links {
+               element dv:* { text }+
+            }
+         }
+      }
+   }
+}
+
+fileSec = element fileSec {
+   element fileGrp {
+      attribute USE { "DEFAULT" },
+      element file {
+         attribute ID { xsd:ID },
+         attribute MIMETYPE { "image/jpeg" },
+         element FLocat {
+            attribute LOCTYPE { "URL" },
+            attribute xlink:href { xsd:anyURI }
+         }
+      }+
+   }
+}
+
+structMapLogical = element structMap {
+   attribute TYPE { "LOGICAL" },
+   structDivLogicalTop
+}
+
+structDivLogicalTop = element div {
+   attribute ID { xsd:ID },
+   attribute ADMID { "AMD" },
+   attribute TYPE { xsd:token },
+   structDivLogical*
+}
+
+structDivLogical = element div {
+   attribute ID { xsd:ID },
+   attribute LABEL { text }?,
+   attribute TYPE { xsd:token },
+   attribute DMDID { xsd:IDREF }?,
+   structDivLogical*
+}
+
+structMapPhysical = element structMap {
+   attribute TYPE { "PHYSICAL" },
+   structDivPhysicalTop
+}
+
+structDivPhysicalTop = element div {
+   attribute ID { xsd:ID },
+   attribute TYPE { "physSequence" },
+   structDivPhysical*
+}
+
+structDivPhysical = element div {
+   attribute ID { xsd:ID },
+   attribute TYPE { xsd:token },
+   attribute ORDER { xsd:string },
+   attribute ORDERLABEL { xsd:string },
+   element fptr {
+      attribute FILEID { xsd:IDREF }
+   }
+}
+
+structLink = element structLink {
+   element smLink {
+      attribute xlink:to { xsd:IDREF },
+      attribute xlink:from { xsd:IDREF },
+      empty
+   }+
+}
