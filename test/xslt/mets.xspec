@@ -1,8 +1,10 @@
 <xspec:description stylesheet="../../src/xslt/mets.xsl"
+                   xmlns:fun="tag:maus@hab.de,2018-02:XSLT"
                    xmlns:struct="http://uri.hab.de/ontology/diglib-struct#"
                    xmlns:mets="http://www.loc.gov/METS/"
                    xmlns:mods="http://www.loc.gov/mods/v3"
                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                   xmlns:xlink="http://www.w3.org/1999/xlink"
                    xmlns:xspec="http://www.jenitennison.com/xslt/xspec">
 
   <xspec:param name="eventCreateUUID">82ef66c7-8dca-4f57-b9d9-5b6dddbef080</xspec:param>
@@ -25,6 +27,26 @@
       </mets:mets>
     </xspec:context>
     <xspec:expect test="exists(//struct:P0011/parent::rdf:Description)" label="replace mods:mods with rdf:Description"/>
+  </xspec:scenario>
+
+  <xspec:scenario label="When normalizing an file identifier">
+    <xspec:call function="fun:normalize-fileId">
+      <xspec:param name="file" select="/mets:fileGrp/mets:file">
+        <mets:fileGrp USE="DEFAULT">
+          <mets:file>
+            <mets:FLocat xlink:href="http://example.org/foo/bar/0001.jpg"/>
+          </mets:file>
+        </mets:fileGrp>
+      </xspec:param>
+    </xspec:call>
+    <xspec:expect select="'de.hab.diglib-mets-file.default.0001'" label="use the file basename w/o extension"/>
+  </xspec:scenario>
+
+  <xspec:scenario label="When normalizing a physical structure identifier">
+    <xspec:call function="fun:normalize-physId">
+      <xspec:param name="fileId" select="'de.hab.diglib-mets-file.default.0001'"/>
+    </xspec:call>
+    <xspec:expect select="'de.hab.diglib-mets-phys.0001'" label="use the file basename w/o extension"/>
   </xspec:scenario>
 
 </xspec:description>
