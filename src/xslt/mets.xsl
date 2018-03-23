@@ -52,7 +52,7 @@
                 <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
                 <premis:eventIdentifierValue><xsl:value-of select="$eventCreateUUID"/></premis:eventIdentifierValue>
               </premis:eventIdentifier>
-              <premis:eventType valueURI="http://id.loc.gov/vocabulary/preservation/eventType/creation">creation</premis:eventType>
+              <premis:eventType valueURI="http://id.loc.gov/vocabulary/preservation/eventType/cre">creation</premis:eventType>
               <premis:eventDataTime><xsl:value-of select="/mets/metsHdr/@CREATEDATE"/></premis:eventDataTime>
               <premis:linkingAgentIdentifier>
                 <premis:linkingAgentIdentifierType>Name</premis:linkingAgentIdentifierType>
@@ -119,9 +119,24 @@
     <xsl:attribute name="xlink:href" select="concat('../', tokenize(., '/')[last()])"/>
   </xsl:template>
 
+  <xsl:function name="fun:normalize-physId" as="xs:string">
+    <xsl:param name="fileId" as="xs:string"/>
+    <xsl:value-of>
+      <xsl:text>de.hab.diglib-mets-phys.</xsl:text>
+      <xsl:value-of select="tokenize($fileId, '\.')[last()]"/>
+    </xsl:value-of>
+  </xsl:function>
+
   <xsl:function name="fun:normalize-fileId" as="xs:string">
     <xsl:param name="file" as="element(file)"/>
-    <xsl:value-of select="string-join( ('image', if ($file/../@USE) then lower-case($file/../@USE) else (), tokenize($file/FLocat/@xlink:href, '/')[last()]), '.')"/>
+    <xsl:value-of>
+      <xsl:text>de.hab.diglib-mets-file</xsl:text>
+      <xsl:if test="$file/../@USE">
+        <xsl:value-of select="concat('.', lower-case($file/../@USE))"/>
+      </xsl:if>
+      <xsl:text>.</xsl:text>
+      <xsl:value-of select="substring-before(tokenize($file/FLocat/@xlink:href, '/')[last()], '.')"/>
+    </xsl:value-of>
   </xsl:function>
 
 </xsl:transform>
