@@ -1,7 +1,7 @@
 # RelaxNG einer METS-Datei aus Kitodo.Production
 #
 # Autor: David Maus <maus@hab.de>
-# Timestamp: <2018-03-23 13:45:45 maus>
+# Timestamp: <2018-04-04 13:07:09 maus>
 #
 
 default namespace = "http://www.loc.gov/METS/"
@@ -16,7 +16,7 @@ start = mets
 mets = element mets {
    attribute xsi:schemaLocation { text },
    metsHdr,
-   dmdSec*,
+   dmdSecs,
    amdSec,
    fileSec,
    structMapLogical,
@@ -34,6 +34,8 @@ metsHdr = element metsHdr {
       element note { text }
    }
 }
+
+dmdSecs = dmdSec*
 
 dmdSec = element dmdSec {
    attribute ID { xsd:ID },
