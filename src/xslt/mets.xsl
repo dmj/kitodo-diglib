@@ -36,9 +36,11 @@
           <xsl:element name="include" namespace="http://www.w3.org/2001/XInclude">
             <xsl:attribute name="href">about.rdf</xsl:attribute>
             <xsl:element name="fallback" namespace="http://www.w3.org/2001/XInclude">
-              <rdf:Description>
-                <skos:prefLabel>Unbekanntes Objekt / Unknown object</skos:prefLabel>
-              </rdf:Description>
+              <rdf:RDF>
+                <rdf:Description>
+                  <skos:prefLabel>Unbekanntes Objekt / Unknown object</skos:prefLabel>
+                </rdf:Description>
+              </rdf:RDF>
             </xsl:element>
           </xsl:element>
         </xmlData>
