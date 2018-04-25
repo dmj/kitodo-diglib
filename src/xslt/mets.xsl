@@ -6,6 +6,7 @@
                xmlns:fun="tag:maus@hab.de,2018-02:XSLT"
                xmlns:mods="http://www.loc.gov/mods/v3"
                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+               xmlns:skos="http://www.w3.org/2004/02/skos/core#"
                xmlns:xlink="http://www.w3.org/1999/xlink"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -36,7 +37,7 @@
             <xsl:attribute name="href">about.rdf</xsl:attribute>
             <xsl:element name="fallback" namespace="http://www.w3.org/2001/XInclude">
               <rdf:Description>
-                <dct:bibliographicCitation>Unbekanntes Objekt / Unknown object</dct:bibliographicCitation>
+                <skos:prefLabel>Unbekanntes Objekt / Unknown object</skos:prefLabel>
               </rdf:Description>
             </xsl:element>
           </xsl:element>
